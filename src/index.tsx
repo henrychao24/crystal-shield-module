@@ -1,9 +1,12 @@
 import { NativeModules } from 'react-native';
 
-type CrystalShieldModuleType = {
-  multiply(a: number, b: number): Promise<number>;
+type BackgroundLocationType = {
+  startLocationUpdates(channelId: number, channelName: string, firstLineText: string, secondLineText: string): void;
+  stopLocationUpdates(): void;
+  hasStartedLocationUpdates(): Promise<boolean>;
+  test(): void;
 };
 
-const { CrystalShieldModule } = NativeModules;
+const { BackgroundLocation } = NativeModules;
 
-export default CrystalShieldModule as CrystalShieldModuleType;
+export default BackgroundLocation as BackgroundLocationType;

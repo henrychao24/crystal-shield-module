@@ -22,10 +22,17 @@
   <!--用于申请获取蓝牙信息进行室内定位-->
   <uses-permission android:name="android.permission.BLUETOOTH" />
   <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-  <!--后台定位服务-->
+  <!--后台定位服务, target>=28-->
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
   <application>
+    <!--
+      如果您的app需要运行在Android Q版本的手机上，需要为ApsService增加android:foregroundServiceType="location"属性，
+      主要是为了解决Android 8.0以上版本对后台定位的限制
+    -->
+    <!--    <service-->
+    <!--      android:name="com.amap.api.location.APSService"-->
+    <!--      android:foregroundServiceType="location" />-->
     <service android:name="com.amap.api.location.APSService" />
   </application>
 

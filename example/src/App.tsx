@@ -17,14 +17,22 @@ export default function App() {
       const hasStartedLocationUpdates = await BackgroundLocation.hasStartedLocationUpdates();
       console.log('has: ' + hasStartedLocationUpdates);
       if (!hasStartedLocationUpdates) {
-        BackgroundLocation.startLocationUpdates(2001, '水晶盾', '水晶盾', '定位服务运行中...');
+        BackgroundLocation.startLocationUpdates(2000, 2001, '水晶盾', '水晶盾', '定位服务运行中...');
         console.log('started')
       }
     })();
 
     const eventEmitter = new NativeEventEmitter(NativeModules.ToastLib);
     const eventListener = eventEmitter.addListener('EventLocation', (event) => {
-      console.log(event.location.contentJson); // "someValue"
+      if (event) {
+        if (event.error) {
+          console.log(event.error);
+          return;
+        }
+        if (event.location) {
+          console.log(event.location.latitude);
+        }
+      }
     });
 
     return () => {

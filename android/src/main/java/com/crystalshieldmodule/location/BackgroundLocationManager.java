@@ -48,7 +48,12 @@ public class BackgroundLocationManager {
     }
   };
 
-  public void startLocationUpdates(Context context, int channelId, String channelName, String firstLineText, String secondLineText) {
+  // 必须在AmapLocationClient实例化之前调用
+  public void setApiKey(String apiKey) {
+    AMapLocationClient.setApiKey(apiKey);
+  }
+
+  public void startLocationUpdates(Context context, int interval, int channelId, String channelName, String firstLineText, String secondLineText) {
     if (hasStartedLocationUpdates()) {
       stopLocationUpdates();
     }
@@ -61,7 +66,7 @@ public class BackgroundLocationManager {
     //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
     locationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
     //设置定位间隔,单位毫秒,默认为2000ms
-    locationOption.setInterval(2000);
+    locationOption.setInterval(interval);
     //设置定位参数
     mLocationClient.setLocationOption(locationOption);
     // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，

@@ -31,8 +31,13 @@ public class BackgroundLocationModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void startLocationUpdates(int channelId, String channelName, String firstLineText, String secondLineText) {
-    sBackgroundLocationManager.startLocationUpdates(getReactApplicationContext(), channelId, channelName, firstLineText, secondLineText);
+  public void setApiKey(String apiKey) {
+    sBackgroundLocationManager.setApiKey(apiKey);
+  }
+
+  @ReactMethod
+  public void startLocationUpdates(int interval, int channelId, String channelName, String firstLineText, String secondLineText) {
+    sBackgroundLocationManager.startLocationUpdates(getReactApplicationContext(), interval, channelId, channelName, firstLineText, secondLineText);
   }
 
   @ReactMethod

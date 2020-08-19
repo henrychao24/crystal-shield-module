@@ -5,6 +5,7 @@ type BackgroundLocationType = {
   startLocationUpdates(interval: number, channelId: number, channelName: string, firstLineText: string, secondLineText: string): void;
   stopLocationUpdates(): void;
   hasStartedLocationUpdates(): Promise<boolean>;
+  performUpgrade(fileAbsolutePath: string): void;
   test(): void;
 };
 

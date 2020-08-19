@@ -24,6 +24,8 @@
   <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
   <!--后台定位服务, target>=28-->
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <!--android 8+-->
+  <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
   <application>
     <!--

@@ -1,5 +1,6 @@
 package com.crystalshieldmodule.location;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -63,16 +64,13 @@ public class BackgroundLocationModule extends ReactContextBaseJavaModule {
     promise.resolve(hasStartedLocationUpdates);
   }
 
+  @SuppressLint("SetWorldReadable")
   @ReactMethod
   public void performUpgrade(String fileAbsolutePath) {
     Context context = getReactApplicationContext();
     File upgradeFile = new File(fileAbsolutePath);
     if (!upgradeFile.exists()) {
       Toast.makeText(context, "未找到安装文件", Toast.LENGTH_SHORT).show();
-      return;
-    }
-    if (!upgradeFile.setReadable(true, true)) {
-      Toast.makeText(context, "无安装权限", Toast.LENGTH_SHORT).show();
       return;
     }
     if (getCurrentActivity() == null) {
@@ -87,6 +85,15 @@ public class BackgroundLocationModule extends ReactContextBaseJavaModule {
       intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
       context.startActivity(intent);
     } else {
+      boolean hasReadPermission = false;
+      try {
+        hasReadPermission = upgradeFile.setReadable(true, false);
+      } catch (Exception ignored) {
+      }
+      if (!hasReadPermission) {
+        Toast.makeText(context, "无安装文件读取权限", Toast.LENGTH_SHORT).show();
+        return;
+      }
       Uri apkUri = Uri.fromFile(upgradeFile);
       Intent intent = new Intent(Intent.ACTION_VIEW);
       intent.setDataAndType(apkUri, "application/vnd.android.package-archive");

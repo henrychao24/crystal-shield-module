@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
@@ -29,6 +31,7 @@ public class BackgroundLocationModule extends ReactContextBaseJavaModule {
     reactContext = context;
   }
 
+  @NonNull
   @Override
   public String getName() {
     return "BackgroundLocation";
@@ -63,8 +66,13 @@ public class BackgroundLocationModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void performUpgrade(String fileAbsolutePath) {
     Context context = getReactApplicationContext();
-    File cacheUpgradeFile = new File(fileAbsolutePath);
-    if (!cacheUpgradeFile.exists()) {
+    File upgradeFile = new File(fileAbsolutePath);
+    if (!upgradeFile.exists()) {
+      Toast.makeText(context, "未找到安装文件", Toast.LENGTH_SHORT).show();
+      return;
+    }
+    if (!upgradeFile.setReadable(true, true)) {
+      Toast.makeText(context, "无安装权限", Toast.LENGTH_SHORT).show();
       return;
     }
     if (getCurrentActivity() == null) {
@@ -73,13 +81,13 @@ public class BackgroundLocationModule extends ReactContextBaseJavaModule {
     Application application = getCurrentActivity().getApplication();
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-      Uri apkUri = FileProvider.getUriForFile(context, application.getPackageName() + ".FileSystemFileProvider", cacheUpgradeFile);
+      Uri apkUri = FileProvider.getUriForFile(context, application.getPackageName() + ".FileSystemFileProvider", upgradeFile);
       Intent intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
       intent.setData(apkUri);
       intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
       context.startActivity(intent);
     } else {
-      Uri apkUri = Uri.fromFile(cacheUpgradeFile);
+      Uri apkUri = Uri.fromFile(upgradeFile);
       Intent intent = new Intent(Intent.ACTION_VIEW);
       intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
       intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

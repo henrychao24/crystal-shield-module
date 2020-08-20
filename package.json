@@ -1,6 +1,6 @@
 {
   "name": "crystal-shield-module",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "CrystalShield native module",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

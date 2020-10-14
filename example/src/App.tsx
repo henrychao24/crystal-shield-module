@@ -17,8 +17,14 @@ export default function App() {
       const hasStartedLocationUpdates = await BackgroundLocation.hasStartedLocationUpdates();
       console.log('has: ' + hasStartedLocationUpdates);
       if (!hasStartedLocationUpdates) {
-        BackgroundLocation.startLocationUpdates(2000, 2001, '水晶盾', '水晶盾', '定位服务运行中...');
-        console.log('started')
+        BackgroundLocation.startLocationUpdates(
+          2000,
+          2001,
+          '水晶盾',
+          '水晶盾',
+          '定位服务运行中...'
+        );
+        console.log('started');
       }
     })();
 
@@ -36,18 +42,31 @@ export default function App() {
     });
 
     return () => {
+      BackgroundLocation.stopLocationUpdates();
       eventListener.remove();
     };
   }, []);
 
+  const requestOnceLocation = () => {
+    BackgroundLocation.requestOnceLocation()
+      .then((res) => {
+        const newRes = { ...res };
+        console.log(JSON.stringify(newRes));
+      })
+      .catch((e) => {
+        console.log(e.userInfo.error.errorCode);
+      });
+  };
+
   return (
     <View style={styles.container}>
       <Button
-        title="stop"
+        title="停止连续定位"
         onPress={() => {
           BackgroundLocation.stopLocationUpdates();
         }}
       />
+      <Button title="单次定位" onPress={requestOnceLocation} />
     </View>
   );
 }

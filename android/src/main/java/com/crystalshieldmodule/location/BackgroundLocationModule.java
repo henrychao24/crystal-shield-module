@@ -49,6 +49,12 @@ public class BackgroundLocationModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void requestOnceLocation(Promise promise) {
+    OnceLocationTask onceLocationTask = new OnceLocationTask(promise);
+    onceLocationTask.requestOnceLocation(getReactApplicationContext());
+  }
+
+  @ReactMethod
   public void startLocationUpdates(int interval, int channelId, String channelName, String firstLineText, String secondLineText) {
     sBackgroundLocationManager.startLocationUpdates(getReactApplicationContext(), interval, channelId, channelName, firstLineText, secondLineText);
   }

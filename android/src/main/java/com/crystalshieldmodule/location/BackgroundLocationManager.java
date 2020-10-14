@@ -35,9 +35,6 @@ public class BackgroundLocationManager {
         params.putMap("location", locationMap);
         BackgroundLocationModule.sendEvent(EventLocation, params);
       } else {
-        if (BuildConfig.DEBUG) {
-          Log.e("Henry", "location Error, ErrCode:" + amapLocation.getErrorCode() + ", errInfo:" + amapLocation.getErrorInfo());
-        }
         WritableMap params = Arguments.createMap();
         WritableMap errorMap = Arguments.createMap();
         errorMap.putInt("errorCode", amapLocation.getErrorCode());
@@ -80,6 +77,7 @@ public class BackgroundLocationManager {
 
   public void stopLocationUpdates() {
     if (mLocationClient != null) {
+      mLocationClient.disableBackgroundLocation(true);
       mLocationClient.stopLocation();
       mLocationClient.onDestroy();
       mLocationClient = null;

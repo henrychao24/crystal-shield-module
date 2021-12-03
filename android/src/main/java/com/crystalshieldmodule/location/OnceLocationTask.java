@@ -1,12 +1,10 @@
 package com.crystalshieldmodule.location;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.facebook.react.BuildConfig;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.WritableMap;
@@ -40,7 +38,16 @@ public class OnceLocationTask {
   }
 
   public void requestOnceLocation(Context context) {
-    AMapLocationClient locationClient = new AMapLocationClient(context);
+    AMapLocationClient.updatePrivacyShow(context,true,true);
+    AMapLocationClient.updatePrivacyAgree(context,true);
+    AMapLocationClient locationClient;
+    try {
+      locationClient = new AMapLocationClient(context);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return;
+    }
+
     // 初始化定位参数
     AMapLocationClientOption locationOption = new AMapLocationClientOption();
     // 设置定位监听

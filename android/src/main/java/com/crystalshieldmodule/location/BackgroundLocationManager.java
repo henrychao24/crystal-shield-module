@@ -55,7 +55,15 @@ public class BackgroundLocationManager {
       stopLocationUpdates();
     }
 
-    mLocationClient = new AMapLocationClient(context);
+    AMapLocationClient.updatePrivacyShow(context,true,true);
+    AMapLocationClient.updatePrivacyAgree(context,true);
+    try {
+      mLocationClient = new AMapLocationClient(context);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return;
+    }
+
     //初始化定位参数
     AMapLocationClientOption locationOption = new AMapLocationClientOption();
     //设置定位监听

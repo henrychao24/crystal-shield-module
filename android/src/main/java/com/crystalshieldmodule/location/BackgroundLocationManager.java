@@ -55,8 +55,9 @@ public class BackgroundLocationManager {
       stopLocationUpdates();
     }
 
-    AMapLocationClient.updatePrivacyShow(context,true,true);
-    AMapLocationClient.updatePrivacyAgree(context,true);
+    // implementation 'com.amap.api:location:latest.integration' 降低到4.9.0，所以先注释
+    // AMapLocationClient.updatePrivacyShow(context,true,true);
+    // AMapLocationClient.updatePrivacyAgree(context,true);
     try {
       mLocationClient = new AMapLocationClient(context);
     } catch (Exception e) {

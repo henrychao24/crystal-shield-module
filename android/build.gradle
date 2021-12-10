@@ -118,5 +118,5 @@ repositories {
 dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
-  implementation 'com.amap.api:location:latest.integration'
+  implementation 'com.amap.api:location:4.9.0'
 }
